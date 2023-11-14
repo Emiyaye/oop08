@@ -70,7 +70,7 @@ public class TestStrictBankAccount {
     public void testWithdrawingTooMuch() {
         try {
             bankAccount.withdraw(1, 100);
-            Assertions.fail("withdra");
+            Assertions.fail("withdrawed while you dont have enough money");
         } catch (IllegalArgumentException e) {
             assertEquals("Insufficient balance", e.getMessage());
         }
