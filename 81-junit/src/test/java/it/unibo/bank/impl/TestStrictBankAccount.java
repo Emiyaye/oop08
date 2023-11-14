@@ -43,16 +43,15 @@ public class TestStrictBankAccount {
      */
     @Test
     public void testManagementFees() {
-        final double AMOUNT = 100;
-        bankAccount.deposit(1, AMOUNT);
-        double expectedValue = AMOUNT - (StrictBankAccount.MANAGEMENT_FEE + bankAccount.getTransactionsCount() * StrictBankAccount.TRANSACTION_FEE);
+        bankAccount.deposit(1, INITIAL_AMOUNT);
+        double expectedValue = INITIAL_AMOUNT - (StrictBankAccount.MANAGEMENT_FEE + bankAccount.getTransactionsCount() * StrictBankAccount.TRANSACTION_FEE);
         assertEquals(1, bankAccount.getTransactionsCount());
         bankAccount.chargeManagementFees(1);
         assertEquals(expectedValue, bankAccount.getBalance());
     }
 
     /**
-     * Test that withdrawing a negative amount causes a failure.
+     * Test that withdrawing a negative INITIAL_AMOUNT causes a failure.
      */
     @Test
     public void testNegativeWithdraw() {
