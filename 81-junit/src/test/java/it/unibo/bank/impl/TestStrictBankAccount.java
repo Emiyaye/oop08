@@ -43,9 +43,9 @@ public class TestStrictBankAccount {
      */
     @Test
     public void testManagementFees() {
-        bankAccount.deposit(1, INITIAL_AMOUNT);
+        bankAccount.deposit(mRossi.getUserID(), INITIAL_AMOUNT);
         double expectedValue = INITIAL_AMOUNT - (StrictBankAccount.MANAGEMENT_FEE + bankAccount.getTransactionsCount() * StrictBankAccount.TRANSACTION_FEE);
-        assertEquals(1, bankAccount.getTransactionsCount());
+        assertEquals(mRossi.getUserID(), bankAccount.getTransactionsCount());
         bankAccount.chargeManagementFees(1);
         assertEquals(expectedValue, bankAccount.getBalance());
     }
@@ -56,7 +56,7 @@ public class TestStrictBankAccount {
     @Test
     public void testNegativeWithdraw() {
         try {
-            bankAccount.withdraw(1, -100);
+            bankAccount.withdraw(mRossi.getUserID(), -100);
             Assertions.fail("withdrawed an negative amount");
         } catch (IllegalArgumentException e) {
             assertEquals("Cannot withdraw a negative amount", e.getMessage());
@@ -69,7 +69,7 @@ public class TestStrictBankAccount {
     @Test
     public void testWithdrawingTooMuch() {
         try {
-            bankAccount.withdraw(1, 100);
+            bankAccount.withdraw(mRossi.getUserID(), INITIAL_AMOUNT);
             Assertions.fail("withdrawed while you dont have enough money");
         } catch (IllegalArgumentException e) {
             assertEquals("Insufficient balance", e.getMessage());
