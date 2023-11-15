@@ -3,7 +3,9 @@ package it.unibo.mvc;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.border.Border;
 
 import java.awt.BorderLayout;
@@ -37,12 +39,15 @@ public class MiniGUI {
 
         /* creating my stuff */
         final JPanel myPanel = new JPanel();
-        myPanel.setLayout(new BoxLayout(myPanel, 10));
-        canvas.remove(write);
+        myPanel.setLayout(new BoxLayout(myPanel, BoxLayout.X_AXIS));
+        canvas.removeAll();
         canvas.add(myPanel, BorderLayout.CENTER);
         myPanel.add(write);
 
-        frame.setContentPane(myPanel);
+        final JTextField myTextfield= new JTextField(10);
+        canvas.add(myTextfield, BorderLayout.NORTH);
+
+        frame.setContentPane(canvas);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         /*
          * Handlers
@@ -50,7 +55,9 @@ public class MiniGUI {
         write.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
-                System.out.println(randomGenerator.nextInt());
+                final int temp = randomGenerator.nextInt();
+                System.out.println(temp);
+                myTextfield.setText("Result = " + temp);
             }
         });
     }
