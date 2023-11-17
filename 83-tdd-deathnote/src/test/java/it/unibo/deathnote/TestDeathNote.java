@@ -114,5 +114,12 @@ class TestDeathNote {
             assertEquals("Cannot write a death detail if not written the name first", e.getMessage());
         }
         assertEquals("", light_iamagaY.getDeathDetails("Bertolt"));
+
+        try{
+            light_iamagaY.getDeathCause("NonExistentPerson");
+            fail("Not encountered an IllegalArgumentException");
+        }catch(IllegalArgumentException e){
+            assertEquals("Cannot find the person", e.getMessage());
+        }
     }
 }

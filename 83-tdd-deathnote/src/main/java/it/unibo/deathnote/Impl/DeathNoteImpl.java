@@ -11,10 +11,14 @@ public class DeathNoteImpl implements DeathNote{
 
     final private static int DEATH_DETAILS = 1;
     final private static int DEATH_CAUSE = 0;
+    final private static int DEATH_CAUSE_LIMIT = 40;
+    final private static int DEATH_DETAILS_LIMIT = 6040;
     final static private List<String> INITAL_DEATH_CAUSE_DETAILS = new ArrayList<>();
+    final static private String DEAFAULT_DEATH = "Heart Attach";
     final static private String EMPTY = "";
     final static private Map<Integer, String> RULES = new HashMap<>();
-    final private Map<String, ArrayList<String>> deathNote = new HashMap<>();
+    final private Map<String, List<String>> deathNote = new HashMap<>();
+    private int currentTime;
 
     public DeathNoteImpl(){
         for (int i = 1; i <= DeathNote.RULES.size(); i++){
@@ -37,16 +41,17 @@ public class DeathNoteImpl implements DeathNote{
         if (name == null){
             throw new NullPointerException("You cannot kill a null");
         }
-        if (!isNameWritten(name)){
+        if (isNameWritten(name)){
             throw new IllegalArgumentException("You cannot kill the guy twice");
         }
-        deathNote.put(name, new ArrayList<String> (INITAL_DEATH_CAUSE_DETAILS));
+        this.deathNote.put(name, new ArrayList<String> (INITAL_DEATH_CAUSE_DETAILS));
+        
     }
 
     @Override
     public boolean writeDeathCause(String cause) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'writeDeathCause'");
+        
+        return true;
     }
 
     @Override
@@ -57,19 +62,23 @@ public class DeathNoteImpl implements DeathNote{
 
     @Override
     public String getDeathCause(String name) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getDeathCause'");
+        if (!this.deathNote.containsKey(name)){
+            throw new IllegalArgumentException("Cannot find the person");
+        }
+        return this.deathNote.get(name).get(DEATH_CAUSE);
     }
 
     @Override
     public String getDeathDetails(String name) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getDeathDetails'");
+        if (!this.deathNote.containsKey(name)){
+            throw new IllegalArgumentException("Cannot find the person");
+        }
+        return this.deathNote.get(name).get(DEATH_DETAILS);
     }
 
     @Override
     public boolean isNameWritten(String name) {
-        return deathNote.containsKey(name);
+        return this.deathNote.containsKey(name);
     }
     
 }
