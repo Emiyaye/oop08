@@ -11,7 +11,7 @@ public class DeathNoteImpl implements DeathNote{
     }
 
     @Override
-    public void writeName(String name) {
+    public boolean writeName(String name) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'writeName'");
     }

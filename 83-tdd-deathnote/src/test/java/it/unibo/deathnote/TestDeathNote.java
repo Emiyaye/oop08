@@ -31,11 +31,11 @@ class TestDeathNote {
     public void noNegativeRules(){
         assertEquals("""
             The human whose name is written in this note shall die.
-            """, light_iamagaY.getRule(0));
+            """, light_iamagaY.getRule(1));
         try{
             light_iamagaY.getRule(-1);
-            fail("Not encountered an ArrayOutOfBoundException in noNegativeRules");
-        } catch(ArrayIndexOutOfBoundsException e){
+            fail("Not encountered an IllegalArgumentException in noNegativeRules");
+        } catch(IllegalArgumentException e){
             assertEquals("Rules cannot be negative", e.getMessage());
         }
     }
@@ -43,7 +43,6 @@ class TestDeathNote {
     @Test
     public void noEmptyRule(){
         for (int i = 1; i <= DeathNote.RULES.size(); i++){
-            assertNotEquals("", light_iamagaY.getRule(i));
             assertNotEquals("", light_iamagaY.getRule(i));
         }
     }
@@ -63,9 +62,15 @@ class TestDeathNote {
 
         try{
             light_iamagaY.writeName("");
-            fail("Not encountered an IllegalArgumentException");
-        } catch(IllegalArgumentException e){
+            fail("Not encountered a IllegalStateException");
+        } catch(IllegalStateException e){
             assertEquals("You cannot kill a no name", e.getMessage());
+        }
+        try{
+            light_iamagaY.writeName(null);
+            fail("Not encountered a IllegalStateException");
+        }catch(IllegalStateException e){
+            assertEquals("You cannot kll a null", e.getMessage());
         }
     }
 
@@ -75,28 +80,45 @@ class TestDeathNote {
         light_iamagaY.writeDeathCause("Decapitated");
         assertEquals("Decapitated", light_iamagaY.getDeathCause("Eren"));
 
+        light_iamagaY.writeName("pippo");
+        Thread.sleep(41);
+        assertFalse(light_iamagaY.writeDeathCause("Hit by a truck"));
+
         light_iamagaY.writeName("Armin");
         Thread.sleep(6100);
         try{
             light_iamagaY.writeDeathCause("Aging");
-            fail("Not encountered an IllegalArgumentException");
-        }catch(IllegalArgumentException e){
+            fail("Not encountered an IllegalStateException");
+        }catch(IllegalStateException e){
             assertEquals("Cannot write a death cause if not written the name first",
             e.getMessage());
         }
         assertEquals("Heart Attack", light_iamagaY.getDeathCause("Armin"));
         assertNotEquals("Aging", light_iamagaY.getDeathCause("Armin"));
+        
+        try{
+            light_iamagaY.writeName("caio");
+            light_iamagaY.writeDeathCause("");
+            fail("Not encountered an IllegalStateException");
+        }catch(IllegalStateException e){
+            assertEquals("Cannot write a death cause that is empty",
+            e.getMessage());
+        }
 
         light_iamagaY.writeName("Sasha");
         assertEquals("", light_iamagaY.getDeathCause("Sasha"));
-        // changed the death cause from ran for too long into Shot
-        light_iamagaY.writeDeathCause("Shot");
+        light_iamagaY.writeDeathCause("ran for too long");
         assertNotEquals("", light_iamagaY.getDeathCause("Sasha"));
-        assertEquals("Shot", light_iamagaY.getDeathCause("Sasha"));
+        assertEquals("ran for too long", light_iamagaY.getDeathCause("Sasha"));
 
         light_iamagaY.writeName("Bertolt");
         Thread.sleep(6100);
-        light_iamagaY.writeDetails("Eaten by a no brain titan Armin");
+        try{
+            light_iamagaY.writeDetails("Eaten by a no brain titan Armin");
+            fail("Not encountered an IllegalStateException");
+        }catch(IllegalStateException e){
+            assertEquals("Cannot write a death detail if not written the name first", e.getMessage();
+        }
         assertEquals("", light_iamagaY.getDeathDetails("Bertolt"));
     }
 }
