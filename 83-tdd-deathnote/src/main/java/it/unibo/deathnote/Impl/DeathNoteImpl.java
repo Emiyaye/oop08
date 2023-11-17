@@ -60,9 +60,10 @@ public class DeathNoteImpl implements DeathNote{
         final long currTime = System.currentTimeMillis();
         if (currTime - this.writeNameTime < DEATH_CAUSE_LIMIT){
             this.deathNote.get(this.cachedName).set(DEATH_CAUSE_POSITION, cause);
+            this.writeNameTime = currTime;
             return true;
         }
-        if (currTime - this.writeNameTime < DEATH_DETAILS_LIMIT){
+        if (currTime - this.writeNameTime > DEATH_DETAILS_LIMIT){
             this.cachedName = null;
         }
         return false;
@@ -70,14 +71,15 @@ public class DeathNoteImpl implements DeathNote{
 
     @Override
     public boolean writeDetails(String details) {
-        if (details == null || this.cachedName == null){
-            throw new IllegalStateException("Cannot write a death detail if not written the name first");
+        if (details == null || this.cachedName == null || details == EMPTY){
+            throw new IllegalStateException("Cannot write a death details that is empty");
         }
         final long currTime = System.currentTimeMillis();
         if (currTime - this.writeNameTime < DEATH_DETAILS_LIMIT){
             this.deathNote.get(this.cachedName).set(DEATH_DETAILS_POSITION, details);
             return true;
         }
+        this.cachedName = null;
         return false;
     }
 

@@ -120,7 +120,7 @@ class TestDeathNote {
             light_iamagaY.writeDetails(null);
             fail("Not encountered an IllegalStateException");
         } catch (IllegalStateException e){
-            assertEquals("Cannot write a death details that is empty");
+            assertEquals("Cannot write a death details that is empty", e.getMessage());
         }
 
         try{
