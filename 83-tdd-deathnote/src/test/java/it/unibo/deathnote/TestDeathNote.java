@@ -28,15 +28,22 @@ class TestDeathNote {
     }
 
     @Test
-    public void noNegativeRules(){
+    public void testRules(){
         assertEquals("""
             The human whose name is written in this note shall die.
             """, light_iamagaY.getRule(1));
+        final int NEGATIVE = -1;
         try{
-            light_iamagaY.getRule(-1);
+            light_iamagaY.getRule(NEGATIVE);
             fail("Not encountered an IllegalArgumentException in noNegativeRules");
         } catch(IllegalArgumentException e){
-            assertEquals("Rules cannot be negative", e.getMessage());
+            assertEquals("Rule" + NEGATIVE + " does not exist", e.getMessage());
+        }
+        try{
+            light_iamagaY.getRule(1000);
+            fail("Not encountered an IllegalArgumentException in noNegativeRules");
+        } catch(IllegalArgumentException e){
+            assertEquals("Rule" + 1000 + " does not exist", e.getMessage());
         }
     }
 
