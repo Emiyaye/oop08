@@ -117,7 +117,7 @@ class TestDeathNote {
             light_iamagaY.writeDetails("Eaten by a no brain titan Armin");
             fail("Not encountered an IllegalStateException");
         }catch(IllegalStateException e){
-            assertEquals("Cannot write a death detail if not written the name first", e.getMessage();
+            assertEquals("Cannot write a death detail if not written the name first", e.getMessage());
         }
         assertEquals("", light_iamagaY.getDeathDetails("Bertolt"));
     }
