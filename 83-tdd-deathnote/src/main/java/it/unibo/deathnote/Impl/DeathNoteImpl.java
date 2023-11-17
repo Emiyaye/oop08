@@ -88,7 +88,9 @@ public class DeathNoteImpl implements DeathNote{
         if (!this.deathNote.containsKey(name)){
             throw new IllegalArgumentException("Cannot find the person");
         }
-        if (this.deathNote.get(name).get(DEATH_CAUSE_POSITION) == EMPTY && (this.cachedName != name || System.currentTimeMillis() - this.writeNameTime > DEATH_DETAILS_LIMIT)){
+        if (this.deathNote.get(name).get(DEATH_CAUSE_POSITION) == EMPTY && 
+        (this.cachedName != name || 
+        System.currentTimeMillis() - this.writeNameTime > DEATH_DETAILS_LIMIT)){
             this.deathNote.get(name).set(DEATH_CAUSE_POSITION, DEAFAULT_DEATH);
         }
         return this.deathNote.get(name).get(DEATH_CAUSE_POSITION);
