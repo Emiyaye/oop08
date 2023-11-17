@@ -71,7 +71,7 @@ public class DeathNoteImpl implements DeathNote{
     @Override
     public boolean writeDetails(String details) {
         if (details == null || this.cachedName == null){
-            throw new IllegalStateException();
+            throw new IllegalStateException("Cannot write a death detail if not written the name first");
         }
         final long currTime = System.currentTimeMillis();
         if (currTime - this.writeNameTime < DEATH_DETAILS_LIMIT){
