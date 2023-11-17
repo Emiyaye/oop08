@@ -31,8 +31,8 @@ public class DeathNoteImpl implements DeathNote{
 
     @Override
     public String getRule(int ruleNumber) {
-        if (ruleNumber <= 0){
-            throw new IllegalArgumentException("Rules cannot be negative");
+        if (ruleNumber <= 0 || ruleNumber > RULES.size()){
+            throw new IllegalArgumentException("Rules" + ruleNumber + "does not exist");
         }
         return RULES.get(ruleNumber);
     }
