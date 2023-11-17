@@ -24,7 +24,7 @@ class TestDeathNote {
 
     @Test
     public void testSetUp(){
-        assertNotEquals("", light_iamagaY);;
+        assertNotEquals(null, light_iamagaY);;
     }
 
     @Test
@@ -80,13 +80,8 @@ class TestDeathNote {
 
         light_iamagaY.writeName("Armin");
         Thread.sleep(6100);
-        try{
-            light_iamagaY.writeDeathCause("Aging");
-            fail("Not encountered an IllegalStateException");
-        }catch(IllegalStateException e){
-            assertEquals("Cannot write a death cause if not written the name first",
-            e.getMessage());
-        }
+        assertFalse(light_iamagaY.writeDeathCause("Aging"));
+
         assertEquals("Heart Attack", light_iamagaY.getDeathCause("Armin"));
         assertNotEquals("Aging", light_iamagaY.getDeathCause("Armin"));
         

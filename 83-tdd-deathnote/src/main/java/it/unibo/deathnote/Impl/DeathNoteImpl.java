@@ -55,13 +55,14 @@ public class DeathNoteImpl implements DeathNote{
     @Override
     public boolean writeDeathCause(String cause) {
         if (cause == null || this.cachedName == null){
-            throw new IllegalStateException();
+            throw new IllegalStateException("Cannot write a death cause if not written the name first or if the death cause is null");
         }
         final long currTime = System.currentTimeMillis();
         if (currTime - this.writeNameTime < DEATH_CAUSE_LIMIT){
             this.deathNote.get(this.cachedName).set(DEATH_CAUSE_POSITION, cause);
             return true;
         }
+        this.cachedName = null;
         return false;
     }
 
