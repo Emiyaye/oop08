@@ -90,8 +90,7 @@ class TestDeathNote {
             light_iamagaY.writeDeathCause("");
             fail("Not encountered an IllegalStateException");
         }catch(IllegalStateException e){
-            assertEquals("Cannot write a death cause that is empty",
-            e.getMessage());
+            assertEquals("Cannot write a death cause that is empty", e.getMessage());
         }
 
         light_iamagaY.writeName("Sasha");
