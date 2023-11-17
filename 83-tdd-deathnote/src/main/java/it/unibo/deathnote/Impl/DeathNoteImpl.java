@@ -79,7 +79,9 @@ public class DeathNoteImpl implements DeathNote{
             this.deathNote.get(this.cachedName).set(DEATH_DETAILS_POSITION, details);
             return true;
         }
-        this.cachedName = null;
+        if (currTime - this.writeNameTime > DEATH_DETAILS_LIMIT){
+            this.cachedName = null;
+        }
         return false;
     }
 

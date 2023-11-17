@@ -114,7 +114,7 @@ class TestDeathNote {
 
     @Test
     public void testDeathDetails() throws InterruptedException{
-        light_iamagaY.write("Mikasa");
+        light_iamagaY.writeName("Mikasa");
         assertEquals("", light_iamagaY.getDeathDetails("Mikasa"));
         try{
             light_iamagaY.writeDetails(null);
@@ -122,6 +122,13 @@ class TestDeathNote {
         } catch (IllegalStateException e){
             assertEquals("Cannot write a death details that is empty", e.getMessage());
         }
+        light_iamagaY.writeDetails("I Don't Know!!");
+        assertEquals("I Don't Know!!", light_iamagaY.getDeathDetails("Mikasa"));
+
+        light_iamagaY.writeName("Levi");
+        Thread.sleep(6100);
+        assertFalse(light_iamagaY.writeDetails("a"));
+        assertEquals("Heart Attack", light_iamagaY.getDeathCause("Levi"));
 
         try{
             light_iamagaY.getDeathDetails("NonExistentPerson");
