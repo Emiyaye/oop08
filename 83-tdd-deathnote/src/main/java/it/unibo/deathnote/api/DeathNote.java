@@ -86,7 +86,7 @@ public interface DeathNote {
      * @param name the name of the human to kill
      * @throws NullPointerException if the given name is null.
      */
-    boolean writeName(String name);
+    void writeName(String name);
 
     /**
      * If the cause of death is written within the next 40 milliseconds of writing the person's
