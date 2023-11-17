@@ -11,17 +11,17 @@ import it.unibo.deathnote.api.DeathNote;
 
 public class DeathNoteImpl implements DeathNote{
 
-    final private static int DEATH_DETAILS_POSITION = 1;
-    final private static int DEATH_CAUSE_POSITION= 0;
-    final private static int DEATH_CAUSE_LIMIT = 40;
-    final private static int DEATH_DETAILS_LIMIT = 6040;
+    final static private int DEATH_DETAILS_POSITION = 1;
+    final static private int DEATH_CAUSE_POSITION= 0;
+    final static private int DEATH_CAUSE_LIMIT = 40;
+    final static private int DEATH_DETAILS_LIMIT = 6040;
     final static private List<String> INITAL_DEATH_CAUSE_DETAILS = new ArrayList<>();
     final static private String DEAFAULT_DEATH = "Heart Attack";
     final static private String EMPTY = "";
     final static private Map<Integer, String> RULES = new HashMap<>();
     final private Map<String, List<String>> deathNote = new HashMap<>();
     private String cachedName;
-    private long writeTime;
+    private long writeNameTime;
 
     public DeathNoteImpl(){
         for (int i = 1; i <= DeathNote.RULES.size(); i++){
@@ -39,15 +39,8 @@ public class DeathNoteImpl implements DeathNote{
         return RULES.get(ruleNumber);
     }
 
-    private boolean deathCauseStillEmpty(String name){
-        return (name != this.cachedName && deathNote.get(this.cachedName).get(DEATH_CAUSE_POSITION) == EMPTY);
-    }
-
     @Override
     public void writeName(String name) {
-        if(deathCauseStillEmpty(name)){
-            deathNote.get(this.cachedName).set(DEATH_CAUSE_POSITION, DEAFAULT_DEATH);
-        }
         if (name == null){
             throw new NullPointerException("You cannot kill a null");
         }
@@ -56,30 +49,42 @@ public class DeathNoteImpl implements DeathNote{
         }
         this.deathNote.put(name, new ArrayList<String> (INITAL_DEATH_CAUSE_DETAILS));
         this.cachedName = name;
-        this.writeTime = System.currentTimeMillis();
+        this.writeNameTime = System.currentTimeMillis();
     }
 
     @Override
     public boolean writeDeathCause(String cause) {
+        if (cause == null || this.cachedName == null){
+            throw new IllegalStateException();
+        }
         final long currTime = System.currentTimeMillis();
-        if (currTime - this.writeTime < DEATH_CAUSE_LIMIT){
+        if (currTime - this.writeNameTime < DEATH_CAUSE_LIMIT){
             this.deathNote.get(this.cachedName).set(DEATH_CAUSE_POSITION, cause);
             return true;
         }
-        if ()
-        return true;
+        return false;
     }
 
     @Override
     public boolean writeDetails(String details) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'writeDetails'");
+        if (details == null || this.cachedName == null){
+            throw new IllegalStateException();
+        }
+        final long currTime = System.currentTimeMillis();
+        if (currTime - this.writeNameTime < DEATH_DETAILS_LIMIT){
+            this.deathNote.get(this.cachedName).set(DEATH_DETAILS_POSITION, details);
+            return true;
+        }
+        return false;
     }
 
     @Override
     public String getDeathCause(String name) {
         if (!this.deathNote.containsKey(name)){
             throw new IllegalArgumentException("Cannot find the person");
+        }
+        if (this.deathNote.get(name).get(DEATH_CAUSE_POSITION) == EMPTY){
+            this.deathNote.get(name).set(DEATH_CAUSE_POSITION, DEAFAULT_DEATH);
         }
         return this.deathNote.get(name).get(DEATH_CAUSE_POSITION);
     }
