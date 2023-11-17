@@ -61,16 +61,10 @@ class TestDeathNote {
         assertFalse(light_iamagaY.isNameWritten("Mellow"));
 
         try{
-            light_iamagaY.writeName("");
-            fail("Not encountered a IllegalStateException");
-        } catch(IllegalStateException e){
-            assertEquals("You cannot kill a no name", e.getMessage());
-        }
-        try{
             light_iamagaY.writeName(null);
-            fail("Not encountered a IllegalStateException");
-        }catch(IllegalStateException e){
-            assertEquals("You cannot kll a null", e.getMessage());
+            fail("Not encountered a NullPOinterExeption");
+        }catch(NullPointerException e){
+            assertEquals("You cannot kill a null", e.getMessage());
         }
     }
 

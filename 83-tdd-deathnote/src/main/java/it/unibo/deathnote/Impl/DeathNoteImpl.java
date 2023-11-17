@@ -1,13 +1,26 @@
 package it.unibo.deathnote.Impl;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import it.unibo.deathnote.api.DeathNote;
 
 public class DeathNoteImpl implements DeathNote{
 
+    final static private Map<Integer, String> RULES = new HashMap<>();
+
+    public DeathNoteImpl(){
+        for (int i = 1; i <= DeathNote.RULES.size(); i++){
+            RULES.put(i, DeathNote.RULES.get(i - 1));
+        }
+    }
+
     @Override
     public String getRule(int ruleNumber) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getRule'");
+        if (ruleNumber <= 0){
+            throw new IllegalArgumentException("Rules cannot be negative");
+        }
+        return RULES.get(ruleNumber);
     }
 
     @Override
