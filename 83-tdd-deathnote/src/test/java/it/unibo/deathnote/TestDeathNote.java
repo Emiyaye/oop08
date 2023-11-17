@@ -111,4 +111,23 @@ class TestDeathNote {
             assertEquals("Cannot find the person", e.getMessage());
         }
     }
+
+    @Test
+    public void testDeathDetails() throws InterruptedException{
+        light_iamagaY.write("Mikasa");
+        assertEquals("", light_iamagaY.getDeathDetails("Mikasa"));
+        try{
+            light_iamagaY.writeDetails(null);
+            fail("Not encountered an IllegalStateException");
+        } catch (IllegalStateException e){
+            assertEquals("Cannot write a death details that is empty");
+        }
+
+        try{
+            light_iamagaY.getDeathDetails("NonExistentPerson");
+            fail("Not encountered an IllegalArgumentException");
+        }catch(IllegalArgumentException e){
+            assertEquals("Cannot find the person", e.getMessage());
+        }
+    }
 }
